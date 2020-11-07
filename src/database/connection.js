@@ -1,6 +1,15 @@
-const knex = require('knex');
-const configuration = require('../../knexfile');
+const mongoose = require('mongoose');
 
-const connection = knex(configuration.development);
+const user = process.env.DB_USER;
+const pass = process.env.DB_PASS;
+const banco = process.env.DB_DATABASE;
 
-module.exports = connection;
+mongoose.connect(`mongodb+srv://${user}:${pass}@cluster0.miauz.mongodb.net/${banco}?retryWrites=true&w=majority`,
+{ 
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+});
+mongoose.Promise = global.Promise;
+
+module.exports = mongoose;

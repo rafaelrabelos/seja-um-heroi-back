@@ -3,18 +3,22 @@ const express = require('express'); // importar o express
 const OngController = require('./controllers/OngController');
 const IncidentController = require('./controllers/IncidentController');
 const ProfileController = require('./controllers/ProfileController');
-const SessionController = require('./controllers/SessionController');
+const LoginController = require('./controllers/LoginController');
 
 
 const routes = express.Router();
 
-routes.get('/teste', (req, res) => res.status(201).send("Hello Word 2"));
+// Sessão e login
 
-routes.post('/sessions', SessionController.create);
+routes.post('/cadastro', LoginController.create);
+routes.post('/login', LoginController.autentica);
+//routes.post('/recuperar-senha', OngController.recupera);
+
+// Adotar
 
 routes.get('/ongs', OngController.index); 
 
-routes.post('/ongs', OngController.create);
+//routes.post('/ongs', OngController.create);
 
 routes.get('/profile', ProfileController.index);
 
