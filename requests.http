@@ -1,0 +1,20 @@
+GET http://laptop-rabelo:8086/api/v1/teste
+###
+
+###
+POST http://laptop-rabelo:3000/api/v1/vendas/
+content-type: application/json
+
+{
+    "vendedor_id": "5f8c47e6dbab0f3ad01471c0",
+    "data_venda": "2020-10-18",
+    "valor": "29955.69"
+}
+###
+POST  http://laptop-rabelo:3000/api/v1/vendedor/
+content-type: application/json
+
+{
+    "nome": "Vendedor 13",
+    "email": "vendas0013@gmail.com"
+}

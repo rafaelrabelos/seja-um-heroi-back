@@ -8,6 +8,8 @@ const SessionController = require('./controllers/SessionController');
 
 const routes = express.Router();
 
+routes.get('/teste', (req, res) => res.status(201).send("Hello Word 2"));
+
 routes.post('/sessions', SessionController.create);
 
 routes.get('/ongs', OngController.index); 
