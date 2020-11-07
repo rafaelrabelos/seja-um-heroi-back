@@ -1,20 +1,20 @@
-GET http://laptop-rabelo:8086/api/v1/teste
+GET http://laptop-rabelo:3001/api/v1/teste
 ###
 
 ###
-POST http://laptop-rabelo:3000/api/v1/vendas/
+POST http://laptop-rabelo:3001/api/v1/cadastro
 content-type: application/json
 
 {
-    "vendedor_id": "5f8c47e6dbab0f3ad01471c0",
-    "data_venda": "2020-10-18",
-    "valor": "29955.69"
+    "nome": "Usuário teste",
+    "email": "teste-hero@gmail.com",
+    "senha": "123ad123"
 }
 ###
-POST  http://laptop-rabelo:3000/api/v1/vendedor/
+POST  http://laptop-rabelo:3001/api/v1/login
 content-type: application/json
 
 {
-    "nome": "Vendedor 13",
-    "email": "vendas0013@gmail.com"
+    "email": "teste-hero@gmail.com",
+    "senha": "123ad123"
 }
