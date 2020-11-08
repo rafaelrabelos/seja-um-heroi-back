@@ -1,8 +1,8 @@
-GET http://laptop-rabelo:3001/api/v1/teste
+GET http://laptop-rabelo:3333/api/v1/teste
 ###
 
 ###
-POST http://laptop-rabelo:3001/api/v1/cadastro
+POST http://laptop-rabelo:3333/api/v1/cadastro
 content-type: application/json
 
 {
@@ -11,7 +11,7 @@ content-type: application/json
     "senha": "123ad123"
 }
 ###
-POST  http://laptop-rabelo:3001/api/v1/login
+POST  http://laptop-rabelo:3333/api/v1/login
 content-type: application/json
 
 {

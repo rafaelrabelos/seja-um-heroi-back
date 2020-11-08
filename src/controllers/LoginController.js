@@ -1,4 +1,9 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const User = require('../models/usuario');
+const email_check = require("email-validator");
+const password_check  = require('password-validator');
+
 
     async function create(request, response){
 
@@ -9,7 +14,9 @@ const User = require('../models/usuario');
             {
                 return response.status(400).send({
                     status : false, 
-                    erros : [{ dados : "Nome, Email e Senha devem ser informados!"}]
+                    erros : [
+                        "Nome, Email e Senha devem ser informados!"
+                    ]
                 })
             }
 
@@ -17,7 +24,9 @@ const User = require('../models/usuario');
 
                 return response.status(400).send({
                      status : false,
-                      erros : [{ email : "Dados já existem no sistema"}]
+                      erros : [
+                          "Dados já existem no sistema"
+                        ]
                     })
             }
 
@@ -39,9 +48,53 @@ const User = require('../models/usuario');
         }
     };
 
-    function autentica(request, response){
+    async function autentica(request, response){
 
-    return response.json(request.body);
+        console.log(request.body)
+
+        const { email, senha } = request.body;
+
+        if(!email || !senha){
+
+            return response
+            .status(200)
+            .send({ status : false, erros : ["Usuário e Senha devem ser informado."]});
+        }else{
+            let valideRes = [ email_check.validate(email) || `Email [${email}] invalido.`]
+            .filter( (e) => e !== true);
+
+            console.log(valideRes);
+
+            if( valideRes.length > 0 ){
+                return response.status(400).send({ status : false, erros : valideRes});
+            }
+        }
+
+        const user = await  User.findOne({ email }).select('+senha')
+
+        if(!user){
+            return response.status(400).send({ status : false,  erros : [`(${email})Usuário não encontrado.`] });
+        }else if( !user.senha ){
+            return response.status(400).send({ status : false, erros : ["Senha não devolvida pela base."] });
+        }else if( !await bcrypt.compare(senha, user.senha) ){
+            return response.status(400).send({ status : false, erros : ["Senha informada é inválida."] });
+        }else{
+            user.senha = undefined;
+            response.status(200).send({
+            status : true,
+            data : {
+                user : {  nome : user.nome,  email : user.email },
+                token : generateToken({ id: user.id, user : user })
+                }
+            });
+        }
+    }
+
+    function generateToken( data = {} ){
+        return jwt.sign(data, process.env.TOKEN_HASH,
+            {
+                expiresIn : 43200
+            });
     }
 
 
