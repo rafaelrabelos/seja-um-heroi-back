@@ -20,7 +20,7 @@ const password_check  = require('password-validator');
                 })
             }
 
-            if( User.findOne({ email })){
+            if( await User.findOne({ email })){
 
                 return response.status(400).send({
                      status : false,
