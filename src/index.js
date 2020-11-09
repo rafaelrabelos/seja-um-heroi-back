@@ -3,4 +3,4 @@ dotenv.config();
 
 const api = require('./application');
 
-api.executaAplicacao(process.env.PORT || 8086);
+api.executaAplicacao(process.env.API_PORT || 80);
