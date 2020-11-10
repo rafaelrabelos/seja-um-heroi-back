@@ -1,9 +1,6 @@
 GET http://laptop-rabelo:3333/api/v1/
 ###
-GET https://seja-um-heroi-back.herokuapp.com/api/v1/
-###
 
-###
 POST http://laptop-rabelo:3333/api/v1/cadastro
 content-type: application/json
 
@@ -18,5 +15,27 @@ content-type: application/json
 
 {
     "email": "teste-hero@gmail.com",
+    "senha": "123ad123"
+}
+###
+
+// Heroku
+
+GET https://seja-um-heroi-back.herokuapp.com/api/v1/
+###
+POST https://seja-um-heroi-back.herokuapp.com/api/v1/cadastro
+content-type: application/json
+
+{
+    "nome": "Usuário teste",
+    "email": "teste2-hero@gmail.com",
+    "senha": "123ad123"
+}
+###
+POST  https://seja-um-heroi-back.herokuapp.com/api/v1/login
+content-type: application/json
+
+{
+    "email": "teste1-hero@gmail.com",
     "senha": "123ad123"
 }
