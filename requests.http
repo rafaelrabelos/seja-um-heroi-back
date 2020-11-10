@@ -1,5 +1,7 @@
 GET http://laptop-rabelo:3333/api/v1/
 ###
+GET https://seja-um-heroi-back.herokuapp.com/api/v1/
+###
 
 ###
 POST http://laptop-rabelo:3333/api/v1/cadastro
