@@ -1,6 +1,6 @@
 const express = require('express'); // importar o express
 const LoginController = require('./controllers/LoginController');
-
+const os = require('os');
 
 const routes = express.Router();
 
