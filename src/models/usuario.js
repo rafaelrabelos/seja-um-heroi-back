@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
     nome : { type : String, required : true },
     email : { type : String, unique : true, lowercase:true, required : true },
     senha : { type : String, select: false, required : true },
-    administrador : { type : Boolean, default : false, default : false},
+    administrador : { type : Boolean, default : false},
     criadoEm : { type : Date, default : Date.now },
     criadoPor : { type : mongoose.Schema.Types.ObjectId, ref : 'User' },
 });
