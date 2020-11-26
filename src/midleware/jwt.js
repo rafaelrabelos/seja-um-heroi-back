@@ -5,32 +5,39 @@ function valideAuthJWT (req, res, next) {
     const headerAuth = req.headers.authorization;
 
     if(!headerAuth ){
-
-        console.log("Token não informado.")
-        return res.status(401).send({ status : false, erros : [ `Token não informado.`] })
+        return res.status(401).send({ status : false, erros : [ `Token não informado.`] });
     }
 
     const authParts = headerAuth.split(' ');
 
     if(!authParts === 2){
-        console.log("Token não identificavel.")
-        return res.status(401).send({ status : false, erros : [ "Token não identificavel."]})
+        return res.status(401).send({ status : false, erros : [ "Token não identificavel."]});
     }
 
     const [base, token]  = authParts;
 
     if(!/^Bearer$/i.test(base)){
-        console.log("Token não mal formado.")
-        return res.status(401).send({ status : false, erros : [ "Token não mal formado."]})
+        return res.status(401).send({ status : false, erros : [ "Token não mal formado."]});
     }
+
+    if(isValidJWT(token)){
+        req.user = jwt.decode(token);
+        return next();
+    }
+
+    return res.status(401).send({ status : false, erros : ["Token invalido."]});
+}
+
+function isValidJWT(token){
 
     jwt.verify(token, process.env.TOKEN_HASH, (err, decoded) => {
         if(err){
-            return res.status(401).send({ status : false, erros : ["Token invalido."]})
+            return false;
         }
         req.user = decoded.user;
-        return next();
+        return true;
     })
+
 }
 
 function generateToken( data = {} ){
