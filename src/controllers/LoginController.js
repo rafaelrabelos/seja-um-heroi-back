@@ -30,9 +30,10 @@ const password_check  = require('password-validator');
                     })
             }
 
-            request.body.administrator = undefined;
+            request.body.administrator = false;
+            request.body.root = false;
 
-            const user =  await User.create({ 
+            await User.create({ 
                 ...request.body,
                  criadoPor : request._id || undefined
                 });
