@@ -1,4 +1,5 @@
 const express = require('express'); // importar o express
+const jwt = require('./midleware/jwt');
 const LoginController = require('./controllers/LoginController');
 const UserController = require('./controllers/UserController');
 const PetController = require('./controllers/PetController');
@@ -30,6 +31,6 @@ routes.post('/login', LoginController.autentica);
 routes.post('/user/create', UserController.createUser);
 
 // Pets
-routes.get('/pet/classe', PetController.getPetClasses);
+routes.get('/pet/classe', (req, res ) => jwt.valideAuthJWT(req, res, PetController.getPetClasses));
 
 module.exports = routes; 
