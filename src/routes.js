@@ -31,6 +31,5 @@ routes.post('/cadastro/user', UserController.createUser);
 
 // Pets
 routes.get('/cadastro/classe', PetController.getPetClasses);
-routes.post('/cadastro/classe', PetController.insertPetClasse);
 
 module.exports = routes; 

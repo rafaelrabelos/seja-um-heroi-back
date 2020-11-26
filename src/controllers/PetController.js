@@ -21,4 +21,4 @@ async function getPetClasses(request, response){
     }
 };
 
-module.exports ={insertPetClasse, getPetClasses}
+module.exports ={ getPetClasses}
