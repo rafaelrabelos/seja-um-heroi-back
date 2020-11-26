@@ -21,8 +21,8 @@ function valideAuthJWT (req, res, next) {
     }
 
     if(isValidJWT(token)){
-        req.user = jwt.decode(token);
-        return next();
+        req.decodedJWT = jwt.decode(token);
+        return next(req, res);
     }
 
     return res.status(401).send({ status : false, erros : ["Token invalido."]});
