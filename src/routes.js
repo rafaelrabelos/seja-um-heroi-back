@@ -27,9 +27,9 @@ routes.get('/', (req, res) => res.status(200).send({
 routes.post('/login', LoginController.autentica);
 
 // Users
-routes.post('/cadastro/user', UserController.createUser);
+routes.post('/user/create', UserController.createUser);
 
 // Pets
-routes.get('/cadastro/classe', PetController.getPetClasses);
+routes.get('/pet/classe', PetController.getPetClasses);
 
 module.exports = routes; 
