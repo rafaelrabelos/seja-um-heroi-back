@@ -1,5 +1,6 @@
 const express = require('express'); // importar o express
 const LoginController = require('./controllers/LoginController');
+const PetController = require('./controllers/PetController');
 const os = require('os');
 
 const routes = express.Router();
@@ -25,5 +26,7 @@ routes.get('/', (req, res) => res.status(200).send({
 routes.post('/cadastro', LoginController.create);
 routes.post('/login', LoginController.autentica);
 
+// Pets
+routes.get('/cadastro/classe', PetController.getPetClasses);
 
 module.exports = routes; 
