@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('../midleware/jwt');
 const bcrypt = require('bcrypt');
 const User = require('../models/usuario');
 const email_check = require("email-validator");
@@ -36,17 +36,10 @@ const email_check = require("email-validator");
             status : true,
             data : {
                 user : {  nome : user.nome,  email : user.email },
-                token : generateToken({ id: user.id, user : user })
+                token : jwt.generateToken({ id: user.id, user : user })
                 }
             });
         }
-    }
-
-    function generateToken( data = {} ){
-        return jwt.sign(data, process.env.TOKEN_HASH,
-            {
-                expiresIn : 43200
-            });
     }
 
 

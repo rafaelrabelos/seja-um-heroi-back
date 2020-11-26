@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = (req, res, next) => {
+function valideAuthJWT (req, res, next) {
 
     const headerAuth = req.headers.authorization;
 
@@ -32,3 +32,12 @@ module.exports = (req, res, next) => {
         return next();
     })
 }
+
+function generateToken( data = {} ){
+    return jwt.sign(data, process.env.TOKEN_HASH,
+        {
+            expiresIn : 43200
+        });
+}
+
+module.exports = { valideAuthJWT, generateToken }
