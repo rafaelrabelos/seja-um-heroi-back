@@ -1,7 +1,9 @@
-GET http://laptop-rabelo:3333/api/v1/
+//@url = "http://127.0.0.1:3333/api/v1"
+
+GET {{url}}/
 ###
 
-POST http://laptop-rabelo:3333/api/v1/user/create
+POST {{url}}/user/create
 content-type: application/json
 
 {
@@ -10,36 +12,26 @@ content-type: application/json
     "senha": "123ad123"
 }
 ###
-POST  http://laptop-rabelo:3333/api/v1/login
+
+POST  {{url}}/login
 content-type: application/json
 
 {
-    "email": "teste-hero@gmail.com",
-    "senha": "123ad123"
-}
-###
-
-GET http://laptop-rabelo:3333/api/v1/pet/classe
-###
-
-
-// Heroku
-
-GET https://seja-um-heroi-back.herokuapp.com/api/v1/
-###
-POST https://seja-um-heroi-back.herokuapp.com/api/v1/cadastro
-content-type: application/json
-
-{
-    "nome": "Usuário teste",
     "email": "teste2-hero@gmail.com",
     "senha": "123ad123"
 }
 ###
-POST  https://seja-um-heroi-back.herokuapp.com/api/v1/login
+
+GET  {{url}}/pet/classe
 content-type: application/json
+###
+
+POST  {{url}}/pet/classe
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYmYxMTEyMGFiMWJiMmJlMTU1ZjIwYSIsInVzZXIiOnsicm9vdCI6ZmFsc2UsImFkbWluaXN0cmFkb3IiOmZhbHNlLCJfaWQiOiI1ZmJmMTExMjBhYjFiYjJiZTE1NWYyMGEiLCJub21lIjoiVXN1w6FyaW8gdGVzdGUiLCJlbWFpbCI6InRlc3RlMi1oZXJvQGdtYWlsLmNvbSIsImNyaWFkb0VtIjoiMjAyMC0xMS0yNlQwMjoyMTowNi40MDNaIiwiX192IjowfSwiaWF0IjoxNjA2NDMxNDY3LCJleHAiOjE2MDY0NzQ2Njd9.kd22OX8GQNM0SHKWyyNopfFI3uze3B5R7VeSwtNVFJA
 
 {
-    "email": "teste1-hero@gmail.com",
-    "senha": "123ad123"
+    "nome" : "Aves",
+    "descricao" : ""
 }
+###
