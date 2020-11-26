@@ -50,8 +50,6 @@ const password_check  = require('password-validator');
 
     async function autentica(request, response){
 
-        console.log(request.body)
-
         const { email, senha } = request.body;
 
         if(!email || !senha){
@@ -62,8 +60,6 @@ const password_check  = require('password-validator');
         }else{
             let valideRes = [ email_check.validate(email) || `Email [${email}] invalido.`]
             .filter( (e) => e !== true);
-
-            console.log(valideRes);
 
             if( valideRes.length > 0 ){
                 return response.status(400).send({ status : false, erros : valideRes});
