@@ -1,5 +1,6 @@
 const express = require('express'); // importar o express
 const jwt = require('./midleware/jwt');
+const secure = require('./libs/secure');
 const LoginController = require('./controllers/LoginController');
 const UserController = require('./controllers/UserController');
 const PetController = require('./controllers/PetController');
@@ -31,6 +32,7 @@ routes.post('/login', LoginController.autentica);
 routes.post('/user/create', UserController.createUser);
 
 // Pets
-routes.get('/pet/classe', (req, res ) => jwt.valideAuthJWT(req, res, PetController.getPetClasses));
+routes.get('/pet/classe', PetController.getPetClasses );
+routes.post('/pet/classe', (req, res) => secure.secureRoute(req, res, {admin: true}, PetController.insertPetClasse));
 
 module.exports = routes; 
