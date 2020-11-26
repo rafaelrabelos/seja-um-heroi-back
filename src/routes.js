@@ -1,5 +1,6 @@
 const express = require('express'); // importar o express
 const LoginController = require('./controllers/LoginController');
+const UserController = require('./controllers/UserController');
 const PetController = require('./controllers/PetController');
 const os = require('os');
 
@@ -23,10 +24,13 @@ routes.get('/', (req, res) => res.status(200).send({
 }));
 
 // Sessão e login
-routes.post('/cadastro', LoginController.create);
 routes.post('/login', LoginController.autentica);
+
+// Users
+routes.post('/cadastro/user', UserController.createUser);
 
 // Pets
 routes.get('/cadastro/classe', PetController.getPetClasses);
+routes.post('/cadastro/classe', PetController.insertPetClasse);
 
 module.exports = routes; 
