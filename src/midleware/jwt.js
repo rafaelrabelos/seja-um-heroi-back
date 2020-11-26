@@ -1,31 +1,29 @@
 const jwt = require('jsonwebtoken');
 
-function valideAuthJWT (req, res, next) {
+function valideAuthJWT (req, res) {
 
     const headerAuth = req.headers.authorization;
 
     if(!headerAuth ){
-        return res.status(401).send({ status : false, erros : [ `Token não informado.`] });
+        res.status(401).send({ status : false, erros : [ `Token não informado.`] });
     }
 
     const authParts = headerAuth.split(' ');
 
     if(!authParts === 2){
-        return res.status(401).send({ status : false, erros : [ "Token não identificavel."]});
+        res.status(401).send({ status : false, erros : [ "Token não identificavel."]});
     }
 
     const [base, token]  = authParts;
 
     if(!/^Bearer$/i.test(base)){
-        return res.status(401).send({ status : false, erros : [ "Token não mal formado."]});
+        res.status(401).send({ status : false, erros : [ "Token não mal formado."]});
     }
 
     if(isValidJWT(token)){
-        req.decodedJWT = jwt.decode(token);
-        return next(req, res);
+        return true;
     }
-
-    return res.status(401).send({ status : false, erros : ["Token invalido."]});
+    res.status(401).send({ status : false, erros : ["Token invalido."]});
 }
 
 function isValidJWT(token){
@@ -47,4 +45,8 @@ function generateToken( data = {} ){
         });
 }
 
-module.exports = { valideAuthJWT, generateToken }
+function decodeJWT(jwt_token){
+    return jwt.decode(jwt_token)
+}
+
+module.exports = { valideAuthJWT, generateToken, decodeJWT }

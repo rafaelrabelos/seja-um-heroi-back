@@ -1,4 +1,18 @@
 const User = require('../models/usuario');
+const jwt = require('../midleware/jwt');
+
+function secureRoute(req, res, validators, _next){
+
+    if(jwt.valideAuthJWT(req, res) === true){
+        
+        req.decodedJWT = jwt.decodeJWT(req.headers.authorization);
+        
+        if(checkUserRights(res, req.decodedJWT.id, validators) === true){
+
+            _next(req, res);
+       }
+    }  
+}
 
 async function checkUserRights(res, userId, rights){
     let status = true;
@@ -22,9 +36,11 @@ async function checkUserRights(res, userId, rights){
         }
     }
 
-    if( !status){
-        res.status(401).send({ status : status, erros : [message] });
+    if(!status){
+        return res.status(401).send({ status : status, erros : [message] });
     }
+
+    return true;
 }
 
 function isRoot(user){
@@ -39,4 +55,4 @@ function isAdmin(user){
     return false;
 }
 
-module.exports ={checkUserRights, isRoot, isAdmin}
+module.exports ={secureRoute, checkUserRights, isRoot, isAdmin}
