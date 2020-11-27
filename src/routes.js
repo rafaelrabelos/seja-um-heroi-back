@@ -32,7 +32,7 @@ routes.post('/login', LoginController.autentica);
 routes.post('/user/create', UserController.createUser);
 
 // Pets
-routes.get('/pet/classe', PetController.getPetClasses );
+routes.get('/pet/classe',  (req, res) => secure.secureRoute(req, res, null, PetController.getPetClasses));
 routes.post('/pet/classe', (req, res) => secure.secureRoute(req, res, {admin: true}, PetController.insertPetClasse));
 
 module.exports = routes; 
