@@ -1,14 +1,14 @@
 const User = require('../models/usuario');
 const password_check  = require('password-validator');
 
-    async function createUser(request, response){
+    async function createUser(req, res){
 
-        const {nome, email, senha } = request.body;
+        const {nome, email, senha } = req.body;
         
         try {
             if(!nome || !email || !senha)
             {
-                return response.status(400).send({
+                return res.status(400).send({
                     status : false, 
                     erros : [
                         "Nome, Email e Senha devem ser informados!"
@@ -18,7 +18,7 @@ const password_check  = require('password-validator');
 
             if( await User.findOne({ email })){
 
-                return response.status(400).send({
+                return res.status(400).send({
                      status : false,
                       erros : [
                           "Dados já existem no sistema"
@@ -26,22 +26,22 @@ const password_check  = require('password-validator');
                     })
             }
 
-            request.body.administrator = false;
-            request.body.root = false;
+            req.body.administrator = false;
+            req.body.root = false;
 
             await User.create({ 
-                ...request.body,
-                 criadoPor : request._id || undefined
+                ...req.body,
+                 criadoPor : req._id || undefined
                 });
         
-            return response.status(200).send({
+            return res.status(200).send({
                 status : true,
                 user : await User.find({email: email}) 
             });
             
         } catch (error) {
             console.log(error);
-            return response.status(500).send(error);
+            return res.status(500).send(error);
         }
     };
 
