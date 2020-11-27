@@ -28,7 +28,7 @@ content-type: application/json
 
 POST  {{url}}/pet/classe
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYmYxMTEyMGFiMWJiMmJlMTU1ZjIwYSIsInVzZXIiOnsicm9vdCI6ZmFsc2UsImFkbWluaXN0cmFkb3IiOmZhbHNlLCJfaWQiOiI1ZmJmMTExMjBhYjFiYjJiZTE1NWYyMGEiLCJub21lIjoiVXN1w6FyaW8gdGVzdGUiLCJlbWFpbCI6InRlc3RlMi1oZXJvQGdtYWlsLmNvbSIsImNyaWFkb0VtIjoiMjAyMC0xMS0yNlQwMjoyMTowNi40MDNaIiwiX192IjowfSwiaWF0IjoxNjA2NDMxNDY3LCJleHAiOjE2MDY0NzQ2Njd9.kd22OX8GQNM0SHKWyyNopfFI3uze3B5R7VeSwtNVFJA
+Authorization: Bearer 
 
 {
     "nome" : "Aves",
