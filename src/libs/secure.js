@@ -1,43 +1,41 @@
 const User = require('../models/usuario');
 const jwt = require('../midleware/jwt');
 
-function secureRoute(req, res, validators, _next){
+async function secureRoute(req, res, validators, _next){
 
     if(jwt.valideAuthJWT(req, res) === true){
         
         req.decodedJWT = jwt.decodeJWT(req.headers.authorization);
         
-        if(checkUserRights(res, req.decodedJWT.id, validators) === true){
+        if(validators){
+            
+            const checAthorizedResult = await checkUserRights(res, req.decodedJWT.id, validators)
 
-            _next(req, res);
-       }
-    }  
+            if(checAthorizedResult === true){
+                return _next(req, res);
+            }
+            return res.status(401).send({ status : false, erros : [checAthorizedResult] });
+            
+        }else{
+            return _next(req, res);
+        }
+    }
 }
 
 async function checkUserRights(res, userId, rights){
-    let status = true;
-    let statusCode = 401;
-    let message = "";
 
     if(userId === undefined || userId ===  ''){
-        status = false;
-        message = `Usuário não identificado.`;
+        return `Usuário não identificado.`;
     }else{
 
-        const user = await  User.findById({ userId }).select('-senha');
+        const user = await User.findById(userId).select('-senha');
 
         if(rights.root != undefined && rights.root && !isRoot(user)){
-            status = false;
-            message = `Usuário ${user.name} sem privilégios root para executar esta ação.`;
+            return `${user.nome}<${user.email}> sem privilégios root para executar esta ação.`;
         }
         if(rights.admin != undefined && rights.admin && !isAdmin(user) ){
-            status = false;
-            message = `Usuário ${user.name} sem privilégios adm para executar esta ação.`;
+            return `${user.nome}<${user.email}> sem privilégios admim para executar esta ação.`;
         }
-    }
-
-    if(!status){
-        return res.status(401).send({ status : status, erros : [message] });
     }
 
     return true;
@@ -48,7 +46,8 @@ function isRoot(user){
 }
 
 function isAdmin(user){
-    if(isRoot() || user.administrador ){
+    
+    if(isRoot(user) || user.administrador ){
         return true;
     }
     
