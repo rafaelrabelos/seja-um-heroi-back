@@ -5,13 +5,13 @@ function valideAuthJWT (req, res) {
     const headerAuth = req.headers.authorization;
 
     if(!isValidAthorization(headerAuth)){
-        res.status(401).send({ status : false, erros : [ `Token mal formado`] });
+        return res.status(401).send({ status : false, erros : [ `Token mal formado`] });
     }
 
     const [base, token]  = headerAuth.split(' ');
 
     if(!isValidJWT(token)){
-        res.status(401).send({ status : false, erros : ["Token invalido."]});
+        return res.status(401).send({ status : false, erros : ["Token invalido."]});
     }
 
     return true;
