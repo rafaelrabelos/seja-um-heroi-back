@@ -4,8 +4,10 @@ function valideAuthJWT (req, res) {
 
     const headerAuth = req.headers.authorization;
 
-    if(!isValidAthorization(headerAuth)){
-        return res.status(401).send({ status : false, erros : [ `Token mal formado`] });
+    validAthorizatioResult = isValidAthorization(headerAuth);
+
+    if(validAthorizatioResult !== true){
+        return res.status(401).send({ status : false, erros : [validAthorizatioResult] });
     }
 
     const [base, token]  = headerAuth.split(' ');
@@ -20,17 +22,17 @@ function valideAuthJWT (req, res) {
 function isValidAthorization(authorization){
 
     if(!authorization){
-        return false;
+        return "Informações de autorização(token) ausentes.";
     }
 
     const authParts = authorization.split(' ');
 
     if(!authParts === 2){
-        return false;
+        return "Token mal formado.";
     }else if(authParts[0] !== 'Bearer' || !/^Bearer$/i.test(authParts[0])){
-        return false;
+        return "Token iválido";
     }else if(authParts[1] === ''){
-        return false;
+        return "Token nulo.";
     }else{
         return true;
     }
