@@ -8,7 +8,7 @@ async function getPetClasses(request, response){
     try {
         request.body.administrator = undefined;
 
-        const classes =  await PetClasse.find()
+        const classes =  await PetClasse.find().populate('criadoPor')
     
         return response.status(200).send({
             status : true,
