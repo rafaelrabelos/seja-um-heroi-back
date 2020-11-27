@@ -1,8 +1,12 @@
 //@url = "http://127.0.0.1:3333/api/v1"
+//@token = "jwt_token"
 
 GET {{url}}/
 ###
 
+GET {{url}}/user/obtem
+Authorization: Bearer {{token}}
+###
 POST {{url}}/user/create
 content-type: application/json
 
@@ -28,7 +32,7 @@ content-type: application/json
 
 POST  {{url}}/pet/classe
 content-type: application/json
-Authorization: Bearer 
+Authorization: Bearer {{token}}
 
 {
     "nome" : "Aves",
