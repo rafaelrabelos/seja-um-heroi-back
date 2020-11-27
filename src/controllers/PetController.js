@@ -40,7 +40,7 @@ async function insertPetClasse(request, response){
 
         const pet =  await PetClasse.create({
             ...request.body,
-                criadoPor : request._id || undefined
+                criadoPor : request._id
             });
     
         return response.status(200).send({
