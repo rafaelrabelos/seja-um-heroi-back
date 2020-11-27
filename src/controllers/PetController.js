@@ -27,7 +27,6 @@ async function insertPetClasse(request, response){
     
     const { nome } = request.body;
     
-    
     try {
 
         if( await PetClasse.findOne({ nome })){
@@ -40,12 +39,12 @@ async function insertPetClasse(request, response){
 
         const pet =  await PetClasse.create({
             ...request.body,
-                criadoPor : request._id
+            criadoPor : request.decodedJWT.id
             });
     
         return response.status(200).send({
             status : true,
-            classe : await PetClasse.find({nome: nome})
+            classe : await PetClasse.findOne({nome})
         });
         
     } catch (error) {
