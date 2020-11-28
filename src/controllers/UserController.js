@@ -77,7 +77,6 @@ const secure = require('../libs/secure');
 
         const { nome } = req.body;
 
-
         try {
 
             if(!nome)
@@ -85,13 +84,15 @@ const secure = require('../libs/secure');
                 return res.status(400).send({ status : false, erros : ["Nome e email devem ser informados!"] });
             }
 
-            const user = await Model.User.findById(req.params.usuarioId);
+            const usuarioId = req.params.usuarioId || req.decodedJWT.id;
+
+            const user = await Model.User.findById(usuarioId);
 
             if(!user){
                 return res.status(500).send({ status : false, erros : ["Usuario nao localizado."] });
             }
 
-            const userUpdated = await Model.User.findByIdAndUpdate(req.params.usuarioId, { nome }, { new : true });
+            const userUpdated = await Model.User.findByIdAndUpdate(usuarioId, { nome }, { new : true });
 
             return res.status(200).send({ status : true, user : userUpdated  });
         } catch (error) {

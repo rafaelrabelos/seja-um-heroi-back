@@ -29,10 +29,11 @@ routes.get('/', (req, res) => res.status(200).send({
 routes.post('/login', LoginController.autentica);
 
 // Users
-routes.get('/user', (req, res) => secure.secureRoute(req, res, {owner: true}, UserController.getUser));
+routes.get('/user', (req, res) => secure.secureRoute(req, res, null, UserController.getUser));
 routes.get('/user/obtem', (req, res) => secure.secureRoute(req, res, {admin: true}, UserController.getUsers));
 routes.get('/user/obtem/:usuarioId', (req, res) => secure.secureRoute(req, res, {owner : true}, UserController.getUser));
 routes.post('/user/create', UserController.createUser);
+routes.put('/user', (req, res) => secure.secureRoute(req, res, null, UserController.updateUser));
 routes.put('/user/update/:usuarioId', (req, res) => secure.secureRoute(req, res, {owner : true}, UserController.updateUser));
 
 // Pets

@@ -41,6 +41,15 @@ Authorization: Bearer {{token}}
 }
 ###
 
+PUT {{url}}/user
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nome": "Administrador - System"
+}
+###
+
 // login/ adm
 POST  {{url}}/login
 content-type: application/json
