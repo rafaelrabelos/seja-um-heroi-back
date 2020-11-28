@@ -60,6 +60,20 @@ const secure = require('../libs/secure');
         }
     };
 
+    async function getSelfUser(req, res){
+
+        try {
+            const users = await Model.User.findById(req.decodedJWT.id)
+            .select(`${await selectPermissions(req)}`)
+            .populate("criadoPor");
+
+            return res.status(200).send({ status : true, user : users });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    };
+
     async function getUser(req, res){
 
         try {
@@ -155,7 +169,7 @@ const secure = require('../libs/secure');
     }
 
     async function selectPermissions(req){
-
+        
        const permissions ={
             root : await secure.checkUserRights(req, {root: true}) === true 
             ? '+administrador +system_user +root' : false,
