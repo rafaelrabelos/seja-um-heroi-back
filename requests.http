@@ -2,11 +2,20 @@
 //@token = "jwt_token"
 
 GET {{url}}/
+content-type: application/json
 ###
 
+// user/
 GET {{url}}/user/obtem
+content-type: application/json
 Authorization: Bearer {{token}}
 ###
+
+GET {{url}}/user/obtem&userId=
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+
 POST {{url}}/user/create
 content-type: application/json
 
@@ -17,17 +26,20 @@ content-type: application/json
 }
 ###
 
+// login/ adm
 POST  {{url}}/login
 content-type: application/json
 
 {
-    "email": "teste2-hero@gmail.com",
-    "senha": "123ad123"
+    "email": "{{adm_user}}",
+    "senha": "{{adm_pass}}"
 }
 ###
 
+// pet/
 GET  {{url}}/pet/classe
 content-type: application/json
+Authorization: Bearer {{token}}
 ###
 
 POST  {{url}}/pet/classe
