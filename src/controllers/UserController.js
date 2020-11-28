@@ -170,7 +170,7 @@ async function selectPermissions(req){
         ? '+administrador +system_user +root' : false,
         admin : await secure.checkUserRights(req, {admin: true}) === true 
         ? '+administrador +system_user' : false,
-        sys : await secure.checkUserRights(req, {admin: true}) === true 
+        sys : await secure.checkUserRights(req, {system: true}) === true 
         ? '+system_user' : false,
     };
 
