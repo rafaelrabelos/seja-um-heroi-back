@@ -122,7 +122,10 @@ const secure = require('../libs/secure');
                 return res.status(500).send({ status : false, erros : ["Usuario nao localizado."] });
             }
 
-            const userUpdated = await Model.User.findByIdAndUpdate(usuarioId, { nome, sobrenome,  data_nascimento }, { new : true });
+            const userUpdated = await Model.User
+            .findByIdAndUpdate(usuarioId, { nome, sobrenome,  data_nascimento }, { new : true })
+            .select(`${await selectPermissions(req)}`)
+            .populate("criadoPor");;
 
             return res.status(200).send({ status : true, user : userUpdated  });
         } catch (error) {
