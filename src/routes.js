@@ -5,6 +5,7 @@ const LoginController = require('./controllers/LoginController');
 const UserController = require('./controllers/UserController');
 const PetController = require('./controllers/PetController');
 const PetClassesController = require('./controllers/PetClasseController');
+const PetRacasController = require('./controllers/PetRacaController');
 const os = require('os');
 
 const routes = express.Router();
@@ -47,5 +48,9 @@ routes.get('/pet/:petId/owner',  (req, res) => secure.secureRoute(req, res, null
 // Pet Classes
 routes.get('/pet-classe',  (req, res) => secure.secureRoute(req, res, null,   PetClassesController.getPetClasses));
 routes.post('/pet-classe', (req, res) => secure.secureRoute(req, res, {admin: true}, PetClassesController.insertPetClasse));
+
+// Pet Racas
+routes.get('/pet-raca',  (req, res) => secure.secureRoute(req, res, null,   PetRacasController.getPetRacas));
+routes.post('/pet-raca', (req, res) => secure.secureRoute(req, res, {admin: true}, PetRacasController.insertPetRacas));
 
 module.exports = routes; 
