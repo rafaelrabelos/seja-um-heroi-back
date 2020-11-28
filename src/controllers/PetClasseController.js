@@ -5,12 +5,9 @@ async function getPetClasses(req, res){
     try {
         req.body.administrator = undefined;
 
-        const classes =  await ModelClasse.ClassePet.find().populate('criadoPor')
+        const classes =  await ModelClasse.ClassePet.find().populate('criadoPor');
     
-        return res.status(200).send({
-            status : true,
-            data : classes
-        });
+        return res.status(200).send({ status : true, data : classes });
         
     } catch (error) {
         console.log(error);
@@ -21,16 +18,14 @@ async function getPetClasses(req, res){
 async function insertPetClasse(req, res){
     
     try {
-
         const { nome } = req.body;
 
         if(!nome){
-            return res.status(400).send({ status : false, erros : [`Atributos obrigatorios: nome.`] })
+            return res.status(400).send({ status : false, erros : [`Atributos obrigatorios: nome.`] });
         }
 
         if(await ModelClasse.ClassePet.findOne({ nome })){
-
-            return res.status(400).send({ status : false, erros : [`Classe ${nome} ja existe.`] })
+            return res.status(400).send({ status : false, erros : [`Classe ${nome} ja existe.`] });
         }
 
         const pet =  await ModelClasse.ClassePet.create({
@@ -38,10 +33,7 @@ async function insertPetClasse(req, res){
             criadoPor : req.decodedJWT.id
             });
     
-        return res.status(200).send({
-            status : true,
-            classe : await ModelClasse.ClassePet.findOne({nome})
-        });
+        return res.status(200).send({ status : true, data : pet });
         
     } catch (error) {
         console.log(error);

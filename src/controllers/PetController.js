@@ -4,11 +4,10 @@ const { getUser } = require('./UserController');
 async function getPets(req, res){
 
     try {
-
         const pets = await ModelPet.Pet.find()
         .populate("criadoPor");
 
-        return res.status(200).send({ status : true, pet : pets });
+        return res.status(200).send({ status : true, data : pets });
     } catch (error) {
         console.log(error);
         return res.status(500).send(error);
@@ -18,7 +17,6 @@ async function getPets(req, res){
 async function getPet(req, res){
 
     try {
-
         if(!req.params.petId){
             return res.status(400).send({ status : true, erros : ["Id do pet nao informada."] });
         }
@@ -26,7 +24,7 @@ async function getPet(req, res){
         const pets = await ModelPet.Pet.findById(req.params.petId)
         .populate("criadoPor");
 
-        return res.status(200).send({ status : true, pet : pets });
+        return res.status(200).send({ status : true, data : pets });
     } catch (error) {
         console.log(error);
         return res.status(500).send(error);
@@ -36,7 +34,6 @@ async function getPet(req, res){
 async function getPetOwner(req, res){
 
     try {
-
         if(!req.params.petId){
             return res.status(400).send({ status : false, erros : ["Id do pet nao informada."] });
         }

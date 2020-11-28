@@ -8,25 +8,20 @@ async function createUser(req, res){
     const { nome, email, senha } = req.body;
     
     try {
-        
         if(!nome || !email || !senha){
-            return res.status(400).send({ status : false, erros : [`Atributos obrigatorios: nome, email, senha.`] })
+            return res.status(400).send({ status : false, erros : [`Atributos obrigatorios: nome, email, senha.`] });
         }
 
         if( await Model.User.findOne({ email })){
-
-            return res.status(400).send({ status : false, erros : ["Dados já existem no sistema"] })
+            return res.status(400).send({ status : false, erros : ["Dados já existem no sistema"] });
         }
 
-        await Model.User.create({ 
+        const user = await Model.User.create({ 
             ...req.body,
                 criadoPor : req._id || undefined
             });
     
-        return res.status(200).send({
-            status : true,
-            user : await Model.User.find({email: email}) 
-        });
+        return res.status(200).send({ status : true, data : user });
         
     } catch (error) {
         console.log(error);
@@ -41,7 +36,7 @@ async function getUsers(req, res){
         .select(`${await selectPermissions(req)}`)
         .populate("criadoPor");
 
-        return res.status(200).send({ status : true, user : users });
+        return res.status(200).send({ status : true, data : users });
     } catch (error) {
         console.log(error);
         return res.status(500).send(error);
@@ -55,7 +50,7 @@ async function getSelfUser(req, res){
         .select(`${await selectPermissions(req)}`)
         .populate("criadoPor");
 
-        return res.status(200).send({ status : true, user : users });
+        return res.status(200).send({ status : true, data : users });
     } catch (error) {
         console.log(error);
         return res.status(500).send(error);
@@ -69,13 +64,12 @@ async function getUser(req, res){
         .select(`${await selectPermissions(req)}`)
         .populate("criadoPor");
 
-        return res.status(200).send({ status : true, user : users });
+        return res.status(200).send({ status : true, data : users });
     } catch (error) {
         console.log(error);
         return res.status(500).send(error);
     }
 };
-
 
 async function getUserPets(req, res){
 
@@ -83,7 +77,7 @@ async function getUserPets(req, res){
         const users = await ModelPet.Pet.find({heroiDono :req.params.usuarioId})
         .populate("heroiDono");
 
-        return res.status(200).send({ status : true, pets : users });
+        return res.status(200).send({ status : true, data : users });
     } catch (error) {
         console.log(error);
         return res.status(500).send(error);
@@ -95,9 +89,7 @@ async function updateUser(req, res){
     const { nome, sobrenome, data_nascimento } = req.body;
 
     try {
-
-        if(!nome || !sobrenome || !data_nascimento)
-        {
+        if(!nome || !sobrenome || !data_nascimento){
             return res.status(400).send({ status : false, erros : ["Ha campo que devem ser informados!"] });
         }
 
@@ -112,9 +104,9 @@ async function updateUser(req, res){
         const userUpdated = await Model.User
         .findByIdAndUpdate(usuarioId, { nome, sobrenome,  data_nascimento }, { new : true })
         .select(`${await selectPermissions(req)}`)
-        .populate("criadoPor");;
+        .populate("criadoPor");
 
-        return res.status(200).send({ status : true, user : userUpdated  });
+        return res.status(200).send({ status : true, data : userUpdated  });
     } catch (error) {
         console.log(error);
         return res.status(500).send(error);
@@ -124,9 +116,7 @@ async function updateUser(req, res){
 async function deleteUser(req, res){
 
     try {
-
-        if(req.params.usuarioId.toString() === req.decodedJWT.id.toString() )
-        {
+        if(req.params.usuarioId.toString() === req.decodedJWT.id.toString() ){
             return res.status(400).send({ status : false, erros : ["Usuario náo pode se auto deletar."] });
         }
 
@@ -140,7 +130,7 @@ async function deleteUser(req, res){
 
         const userDeleted = await Model.User.findByIdAndDelete(usuarioId);
 
-        return res.status(200).send({ status : true, user : userDeleted  });
+        return res.status(200).send({ status : true, data : userDeleted  });
     } catch (error) {
         console.log(error);
         return res.status(500).send(error);
@@ -182,7 +172,7 @@ async function selectPermissions(req){
         ? '+administrador +system_user' : false,
         sys : await secure.checkUserRights(req, {admin: true}) === true 
         ? '+system_user' : false,
-    }
+    };
 
     if(permissions.root !== false)
         return permissions.root;

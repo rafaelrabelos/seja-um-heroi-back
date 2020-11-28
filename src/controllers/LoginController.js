@@ -11,7 +11,7 @@ async function autentica(req, res){
     if(!email || !senha){
 
         return res
-        .status(200)
+        .status(400)
         .send({ status : false, erros : ["Usuário e Senha devem ser informado."]});
     }else{
         let valideRes = [ email_check.validate(email) || `Email [${email}] invalido.`]
@@ -22,7 +22,7 @@ async function autentica(req, res){
         }
     }
 
-    const user = await  Model.User.findOne({ email }).select('+senha +administrador +system_user +root')
+    const user = await  Model.User.findOne({ email }).select('+senha +administrador +system_user +root');
 
     if(!user){
         return res.status(400).send({ status : false,  erros : [`(${email})Usuário não encontrado.`] });

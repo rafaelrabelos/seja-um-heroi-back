@@ -7,10 +7,7 @@ async function getPetRacas(req, res){
 
         const racas =  await ModelRacas.RacaPet.find().populate('criadoPor classe');
     
-        return res.status(200).send({
-            status : true,
-            data : racas
-        });
+        return res.status(200).send({ status : true, data : racas });
         
     } catch (error) {
         console.log(error);
@@ -23,14 +20,13 @@ async function insertPetRacas(req, res){
     const { nome, classe } = req.body;
     
     try {
-
         if(!classe){
-            return res.status(400).send({ status : false, erros : [`Atributos obrigatorios: classe.`] })
+            return res.status(400).send({ status : false, erros : [`Atributos obrigatorios: classe.`] });
         }
 
         if( await ModelRacas.RacaPet.findOne({ nome })){
 
-            return res.status(400).send({ status : false, erros : [`Raca ${nome} ja existe.`] })
+            return res.status(400).send({ status : false, erros : [`Raca ${nome} ja existe.`] });
         }
 
         const raca =  await ModelRacas.RacaPet.create({
@@ -38,10 +34,7 @@ async function insertPetRacas(req, res){
             criadoPor : req.decodedJWT.id
             });
     
-        return res.status(200).send({
-            status : true,
-            classe : await ModelRacas.RacaPet.findOne({nome})
-        });
+        return res.status(200).send({ status : true, data : raca });
         
     } catch (error) {
         console.log(error);
