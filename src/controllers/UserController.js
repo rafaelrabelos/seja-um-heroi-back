@@ -77,13 +77,13 @@ const secure = require('../libs/secure');
 
     async function updateUser(req, res){
 
-        const { nome } = req.body;
+        const { nome, sobrenome, data_nascimento } = req.body;
 
         try {
 
-            if(!nome)
+            if(!nome || !sobrenome || !data_nascimento)
             {
-                return res.status(400).send({ status : false, erros : ["Nome e email devem ser informados!"] });
+                return res.status(400).send({ status : false, erros : ["Ha campo que devem ser informados!"] });
             }
 
             const usuarioId = req.params.usuarioId || req.decodedJWT.id;
@@ -94,7 +94,7 @@ const secure = require('../libs/secure');
                 return res.status(500).send({ status : false, erros : ["Usuario nao localizado."] });
             }
 
-            const userUpdated = await Model.User.findByIdAndUpdate(usuarioId, { nome }, { new : true });
+            const userUpdated = await Model.User.findByIdAndUpdate(usuarioId, { nome, sobrenome,  data_nascimento }, { new : true });
 
             return res.status(200).send({ status : true, user : userUpdated  });
         } catch (error) {

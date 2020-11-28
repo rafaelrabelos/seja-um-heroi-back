@@ -46,7 +46,9 @@ content-type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "nome": "System"
+    "nome": "Administrador",
+    "sobrenome": "Tester",
+    "data_nascimento": "1986-08-10"
 }
 ###
 
