@@ -6,41 +6,41 @@ content-type: application/json
 ###
 
 // user/
-
 GET {{url}}/user
 content-type: application/json
 Authorization: Bearer {{token}}
 ###
-
-GET {{url}}/user/obtem
+GET {{url}}/user/todos
 content-type: application/json
 Authorization: Bearer {{token}}
 ###
-
-GET {{url}}/user/obtem/5fc1e7505e80bbbdb48e6365
+GET {{url}}/user/5fc28d6ce11978245992e085
 content-type: application/json
 Authorization: Bearer {{token}}
 ###
-
-POST {{url}}/user/create
+GET {{url}}/user/5fc1e6e5526926bccee9160e/pets
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+POST {{url}}/user
 content-type: application/json
 
 {
-    "nome": "root user",
-    "email": "sys-hero@gmail.com",
+    "nome": "teste user",
+    "email": "systeste-hero@gmail.com",
     "senha": "123ad123"
 }
 ###
-
-PUT {{url}}/user/update/5fbfa6b6ee400d001706c4b0
+PUT {{url}}/user/5fc28d6ce11978245992e085
 content-type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "nome": "Administrador - Sys"
+    "nome": "Teste R&R UPDATED",
+    "sobrenome": "Tester",
+    "data_nascimento": "1986-08-10"
 }
 ###
-
 PUT {{url}}/user
 content-type: application/json
 Authorization: Bearer {{token}}
@@ -51,13 +51,7 @@ Authorization: Bearer {{token}}
     "data_nascimento": "1986-08-10"
 }
 ###
-
-DELETE {{url}}/user/remove/5fc1e6e5526926bccee9160e
-content-type: application/json
-Authorization: Bearer {{token}}
-###
-
-DELETE {{url}}/user/5fbf125d1ba4502d14c0bbc4
+DELETE {{url}}/user/5fc28d6ce11978245992e085
 content-type: application/json
 Authorization: Bearer {{token}}
 ###
@@ -72,13 +66,12 @@ content-type: application/json
 }
 ###
 
-// pet/
-GET  {{url}}/pet/classe
+// PetClasse
+GET  {{url}}/pet-classe
 content-type: application/json
 Authorization: Bearer {{token}}
 ###
-
-POST  {{url}}/pet/classe
+POST  {{url}}/pet-classe
 content-type: application/json
 Authorization: Bearer {{token}}
 
