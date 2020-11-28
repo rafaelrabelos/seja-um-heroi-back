@@ -31,7 +31,7 @@ routes.post('/login', LoginController.autentica);
 // Users
 routes.post('/user/create', UserController.createUser);
 routes.get('/user/obtem', (req, res) => secure.secureRoute(req, res, {admin: true}, UserController.getUsers));
-routes.get('/user/obtem/:usuarioId', (req, res) => secure.secureRoute(req, res, null, UserController.getUser));
+routes.get('/user/obtem/:usuarioId', (req, res) => secure.secureRoute(req, res, {owner : true}, UserController.getUser));
 
 // Pets
 routes.get('/pet/classe',  (req, res) => secure.secureRoute(req, res, null, PetController.getPetClasses));
