@@ -4,6 +4,7 @@ const secure = require('./libs/secure');
 const LoginController = require('./controllers/LoginController');
 const UserController = require('./controllers/UserController');
 const PetController = require('./controllers/PetController');
+const PetClassesController = require('./controllers/PetClasseController');
 const os = require('os');
 
 const routes = express.Router();
@@ -39,7 +40,12 @@ routes.put('/user/:usuarioId', (req, res) => secure.secureRoute(req, res, {owner
 routes.delete('/user/:usuarioId', (req, res) => secure.secureRoute(req, res, {system : true}, UserController.deleteUser));
 
 // Pets
-routes.get('/pet-classe',  (req, res) => secure.secureRoute(req, res, null, PetController.getPetClasses));
-routes.post('/pet-classe', (req, res) => secure.secureRoute(req, res, {admin: true}, PetController.insertPetClasse));
+routes.get('/pet',  (req, res) => secure.secureRoute(req, res, null, PetController.getPets));
+routes.get('/pet/:petId',  (req, res) => secure.secureRoute(req, res, null, PetController.getPet));
+routes.get('/pet/:petId/owner',  (req, res) => secure.secureRoute(req, res, null, PetController.getPetOwner));
+
+// Pet Classes
+routes.get('/pet-classe',  (req, res) => secure.secureRoute(req, res, null,   PetClassesController.getPetClasses));
+routes.post('/pet-classe', (req, res) => secure.secureRoute(req, res, {admin: true}, PetClassesController.insertPetClasse));
 
 module.exports = routes; 
