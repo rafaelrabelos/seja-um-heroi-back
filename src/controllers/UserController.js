@@ -98,7 +98,7 @@ async function updateUser(req, res){
         const user = await Model.User.findById(usuarioId);
 
         if(!user){
-            return res.status(500).send({ status : false, erros : ["Usuario nao localizado."] });
+            return res.status(400).send({ status : false, erros : ["Usuario nao localizado."] });
         }
 
         const userUpdated = await Model.User
@@ -125,7 +125,7 @@ async function deleteUser(req, res){
         const canDeleteResult = await userCanDelete(req.decodedJWT.id, usuarioId);
 
         if(canDeleteResult !== true){
-            return res.status(500).send({ status : false, erros : [canDeleteResult] });
+            return res.status(400).send({ status : false, erros : [canDeleteResult] });
         }
 
         const userDeleted = await Model.User.findByIdAndDelete(usuarioId);
