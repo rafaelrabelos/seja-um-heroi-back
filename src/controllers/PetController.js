@@ -21,10 +21,10 @@ async function getPet(req, res){
             return res.status(400).send({ status : true, erros : ["Id do pet nao informada."] });
         }
 
-        const pets = await ModelPet.Pet.findById(req.params.petId)
+        const pet = await ModelPet.Pet.findById(req.params.petId)
         .populate("criadoPor");
 
-        return res.status(200).send({ status : true, data : pets });
+        return res.status(200).send({ status : true, data : pet });
     } catch (error) {
         console.log(error);
         return res.status(500).send(error);
