@@ -57,4 +57,17 @@ const password_check  = require('password-validator');
         }
     };
 
-module.exports ={ createUser, getUsers}
+    async function getUser(req, res){
+
+        console.log(req.params)
+        try {
+            const users = await User.findById(req.params.usuarioId).populate("criadoPor");
+
+            return res.status(200).send({ status : true, user : users });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    };
+
+module.exports ={ createUser, getUsers, getUser }
