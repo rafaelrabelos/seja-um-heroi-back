@@ -1,34 +1,86 @@
 //@url = "http://127.0.0.1:3333/api/v1"
+//@token = "jwt_token"
 
 GET {{url}}/
+content-type: application/json
+###
+
+// user/
+
+GET {{url}}/user
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+
+GET {{url}}/user/obtem
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+
+GET {{url}}/user/obtem/5fc1e7505e80bbbdb48e6365
+content-type: application/json
+Authorization: Bearer {{token}}
 ###
 
 POST {{url}}/user/create
 content-type: application/json
 
 {
-    "nome": "Usuário teste",
-    "email": "teste2-hero@gmail.com",
+    "nome": "root user",
+    "email": "sys-hero@gmail.com",
     "senha": "123ad123"
 }
 ###
 
+PUT {{url}}/user/update/5fbfa6b6ee400d001706c4b0
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nome": "Administrador - Sys"
+}
+###
+
+PUT {{url}}/user
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nome": "Administrador",
+    "sobrenome": "Tester",
+    "data_nascimento": "1986-08-10"
+}
+###
+
+DELETE {{url}}/user/remove/5fc1e6e5526926bccee9160e
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+
+DELETE {{url}}/user/5fbf125d1ba4502d14c0bbc4
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+
+// login/ adm
 POST  {{url}}/login
 content-type: application/json
 
 {
-    "email": "teste2-hero@gmail.com",
-    "senha": "123ad123"
+    "email": "{{adm_user}}",
+    "senha": "{{adm_pass}}"
 }
 ###
 
+// pet/
 GET  {{url}}/pet/classe
 content-type: application/json
+Authorization: Bearer {{token}}
 ###
 
 POST  {{url}}/pet/classe
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYmYxMTEyMGFiMWJiMmJlMTU1ZjIwYSIsInVzZXIiOnsicm9vdCI6ZmFsc2UsImFkbWluaXN0cmFkb3IiOmZhbHNlLCJfaWQiOiI1ZmJmMTExMjBhYjFiYjJiZTE1NWYyMGEiLCJub21lIjoiVXN1w6FyaW8gdGVzdGUiLCJlbWFpbCI6InRlc3RlMi1oZXJvQGdtYWlsLmNvbSIsImNyaWFkb0VtIjoiMjAyMC0xMS0yNlQwMjoyMTowNi40MDNaIiwiX192IjowfSwiaWF0IjoxNjA2NDMxNDY3LCJleHAiOjE2MDY0NzQ2Njd9.kd22OX8GQNM0SHKWyyNopfFI3uze3B5R7VeSwtNVFJA
+Authorization: Bearer {{token}}
 
 {
     "nome" : "Aves",

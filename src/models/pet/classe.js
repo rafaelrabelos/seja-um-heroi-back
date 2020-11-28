@@ -10,4 +10,4 @@ const ClassePetSchema = new mongoose.Schema({
 
 const ClassePet = mongoose.model('ClassePet', ClassePetSchema);
 
-module.exports = ClassePet;
+module.exports = { ClassePet };

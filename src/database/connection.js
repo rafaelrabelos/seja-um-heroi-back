@@ -8,7 +8,8 @@ mongoose.connect(`mongodb+srv://${user}:${pass}@cluster0.miauz.mongodb.net/${ban
 { 
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 });
 mongoose.Promise = global.Promise;
 

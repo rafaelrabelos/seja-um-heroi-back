@@ -1,23 +1,23 @@
 const jwt = require('jsonwebtoken');
-const PetClasse = require('../models/pet/classe');
+const Model = require('../models/pet/classe');
 const secure = require('../libs/secure');
 
 
-async function getPetClasses(request, response){
+async function getPetClasses(req, res){
     
     try {
-        request.body.administrator = undefined;
+        req.body.administrator = undefined;
 
-        const classes =  await PetClasse.find().populate('criadoPor')
+        const classes =  await Model.ClassePet.find().populate('criadoPor')
     
-        return response.status(200).send({
+        return res.status(200).send({
             status : true,
             data : classes
         });
         
     } catch (error) {
         console.log(error);
-        return response.status(500).send(error);
+        return res.status(500).send(error);
     }
 };
 
@@ -29,7 +29,7 @@ async function insertPetClasse(request, response){
     
     try {
 
-        if( await PetClasse.findOne({ nome })){
+        if( await Model.ClassePet.findOne({ nome })){
 
             return response.status(400).send({
                     status : false,
@@ -37,14 +37,14 @@ async function insertPetClasse(request, response){
                 })
         }
 
-        const pet =  await PetClasse.create({
+        const pet =  await Model.ClassePet.create({
             ...request.body,
             criadoPor : request.decodedJWT.id
             });
     
         return response.status(200).send({
             status : true,
-            classe : await PetClasse.findOne({nome})
+            classe : await Model.ClassePet.findOne({nome})
         });
         
     } catch (error) {
