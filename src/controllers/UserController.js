@@ -48,11 +48,9 @@ const password_check  = require('password-validator');
     async function getUsers(req, res){
 
         try {
-            return res.status(200).send({
-                status : true,
-                user : await User.find() 
-            });
-            
+            const users = await User.find().populate("criadoPor");
+
+            return res.status(200).send({ status : true, user : users });
         } catch (error) {
             console.log(error);
             return res.status(500).send(error);
