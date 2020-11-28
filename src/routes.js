@@ -7,6 +7,7 @@ const PetController = require('./controllers/PetController');
 const PetClassesController = require('./controllers/PetClasseController');
 const PetRacasController = require('./controllers/PetRacaController');
 const os = require('os');
+const VacinaController = require('./controllers/VacinaController');
 
 const routes = express.Router();
 
@@ -54,5 +55,13 @@ routes.put('/pet-classe/:petclasseId', (req, res) => secure.secureRoute(req, res
 routes.get('/pet-raca',  (req, res) => secure.secureRoute(req, res, null,   PetRacasController.getPetRacas));
 routes.post('/pet-raca', (req, res) => secure.secureRoute(req, res, {admin: true}, PetRacasController.insertPetRacas));
 routes.put('/pet-raca/:petracaId', (req, res) => secure.secureRoute(req, res, {admin: true}, PetRacasController.updatePetRaca));
+
+// Vacinas
+routes.get('/vacina',  (req, res) => secure.secureRoute(req, res, {admin: true},   VacinaController.getVacinas));
+routes.get('/vacina/:vacinaId',  (req, res) => secure.secureRoute(req, res, null,   VacinaController.getVacina));
+routes.get('/vacina/pet/:petId',  (req, res) => secure.secureRoute(req, res, null,   VacinaController.getPetVacinas));
+routes.get('/vacina/classe/:classeId',  (req, res) => secure.secureRoute(req, res, null,   VacinaController.getClasseVacinas));
+routes.post('/vacina',  (req, res) => secure.secureRoute(req, res, {admin: true},   VacinaController.insertVacina ));
+routes.put('/vacina/:vacinaId',  (req, res) => secure.secureRoute(req, res, {admin: true},   VacinaController.updateVacina ));
 
 module.exports = routes; 

@@ -142,3 +142,46 @@ Authorization: Bearer {{token}}
     "wiki_link" : "https://en.wikipedia.org/wiki/Egyptian_Mau"
 }
 ###
+
+// Vacinas
+
+GET  {{url}}/vacina
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+GET  {{url}}/vacina/5fc2de4c0fa56a9a9df77daa
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+GET  {{url}}/vacina/pet/5fc2bea1fe48376ecf5e1404
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+GET  {{url}}/vacina/classe/5fc2c649f4138678cc8d0b49
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+POST  {{url}}/vacina
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nome" : "Antirrabica",
+    "descricao" : "Defensor é para vacinação de animais sadios (cães e gatos), como um auxiliar na prevenção da raiva",
+    "dose" : "unica, anual",
+    "composicao" : "NA",
+    "classe_pets" : "5fc077df8b30d930d4120570"
+}
+###
+PUT  {{url}}/vacina/5fc2de620fa56a9a9df77dad
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nome" : "Antirrabica",
+    "descricao" : "Defensor é para vacinação de animais sadios (cães e gatos), como um auxiliar na prevenção da raiva",
+    "dose" : "unica, anual",
+    "composicao" : "NA",
+    "classe_pets" : "5fc2c649f4138678cc8d0b49"
+}
+###
