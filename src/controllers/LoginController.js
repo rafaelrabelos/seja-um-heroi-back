@@ -1,6 +1,6 @@
 const jwt = require('../midleware/jwt');
 const bcrypt = require('bcrypt');
-const User = require('../models/usuario');
+const Model = require('../models/usuario');
 const email_check = require("email-validator");
 
 
@@ -22,7 +22,7 @@ const email_check = require("email-validator");
             }
         }
 
-        const user = await  User.findOne({ email }).select('+senha')
+        const user = await  Model.User.findOne({ email }).select('+senha')
 
         if(!user){
             return res.status(400).send({ status : false,  erros : [`(${email})Usuário não encontrado.`] });
