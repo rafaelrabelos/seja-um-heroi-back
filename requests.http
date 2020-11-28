@@ -17,7 +17,7 @@ content-type: application/json
 Authorization: Bearer {{token}}
 ###
 
-GET {{url}}/user/obtem/5fbfa7f1ee400d001706c4b1
+GET {{url}}/user/obtem/5fc1e7505e80bbbdb48e6365
 content-type: application/json
 Authorization: Bearer {{token}}
 ###
@@ -26,8 +26,8 @@ POST {{url}}/user/create
 content-type: application/json
 
 {
-    "nome": "Usuário teste",
-    "email": "teste2-hero@gmail.com",
+    "nome": "root user",
+    "email": "sys-hero@gmail.com",
     "senha": "123ad123"
 }
 ###
@@ -46,8 +46,18 @@ content-type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "nome": "Administrador - System"
+    "nome": "System"
 }
+###
+
+DELETE {{url}}/user/remove/5fc1e6e5526926bccee9160e
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+
+DELETE {{url}}/user/5fbf125d1ba4502d14c0bbc4
+content-type: application/json
+Authorization: Bearer {{token}}
 ###
 
 // login/ adm
