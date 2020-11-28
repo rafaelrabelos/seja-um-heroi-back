@@ -35,7 +35,7 @@ routes.get('/user', (req, res) => secure.secureRoute(req, res, null, UserControl
 routes.get('/user/todos', (req, res) => secure.secureRoute(req, res, {admin: true}, UserController.getUsers));
 routes.get('/user/:usuarioId', (req, res) => secure.secureRoute(req, res, null, UserController.getUser));
 routes.get('/user/:usuarioId/pets', (req, res) => secure.secureRoute(req, res, null, UserController.getUserPets));
-routes.post('/user', UserController.createUser);
+routes.post('/user', (req, res) => secure.secureRoute(req, res, {system: true}, UserController.createUser));
 routes.put('/user', (req, res) => secure.secureRoute(req, res, null, UserController.updateUser));
 routes.put('/user/:usuarioId', (req, res) => secure.secureRoute(req, res, {owner : true}, UserController.updateUser));
 routes.delete('/user/:usuarioId', (req, res) => secure.secureRoute(req, res, {system : true}, UserController.deleteUser));

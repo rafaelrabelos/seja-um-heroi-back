@@ -15,10 +15,10 @@ async function createUser(req, res){
         if( await Model.User.findOne({ email })){
             return res.status(400).send({ status : false, erros : ["Dados já existem no sistema"] });
         }
-
+        
         const user = await Model.User.create({ 
             ...req.body,
-                criadoPor : req._id || undefined
+                criadoPor : req.decodedJWT.id || undefined
             });
     
         return res.status(200).send({ status : true, data : user });
