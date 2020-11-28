@@ -22,12 +22,12 @@ async function autentica(req, res){
         }
     }
 
-    const user = await  Model.User.findOne({ email }).select('+senha')
+    const user = await  Model.User.findOne({ email }).select('+senha +administrador +system_user +root')
 
     if(!user){
         return res.status(400).send({ status : false,  erros : [`(${email})Usuário não encontrado.`] });
     }else if( !user.senha ){
-        return res.status(400).send({ status : false, erros : ["Senha não devolvida pela base."] });
+        return res.status(400).send({ status : false, erros : ["Senha não retornada pela base."] });
     }else if( !await bcrypt.compare(senha, user.senha) ){
         return res.status(400).send({ status : false, erros : ["Senha informada é inválida."] });
     }else{
@@ -36,6 +36,7 @@ async function autentica(req, res){
         status : true,
         data : {
             user : {  nome : user.nome,  email : user.email },
+            privileges : { root: user.root, admin: user.administrador, sys: user.system_user },
             token : jwt.generateToken({ id: user.id, user : user })
             }
         });
