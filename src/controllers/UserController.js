@@ -120,7 +120,7 @@ const secure = require('../libs/secure');
                 return res.status(500).send({ status : false, erros : [canDeleteResult] });
             }
 
-            const userDeleted = await Model.User.findById(usuarioId);
+            const userDeleted = await Model.User.findByIdAndDelete(usuarioId);
 
             return res.status(200).send({ status : true, user : userDeleted  });
         } catch (error) {
