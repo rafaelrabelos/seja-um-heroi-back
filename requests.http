@@ -56,13 +56,35 @@ content-type: application/json
 Authorization: Bearer {{token}}
 ###
 
-// login/ adm
+// login
 POST  {{url}}/login
 content-type: application/json
 
 {
     "email": "{{adm_user}}",
     "senha": "{{adm_pass}}"
+}
+###
+
+// pet/
+GET  {{url}}/pet
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+GET  {{url}}/pet/5fc1ebd1f95a12c1ab9d5585
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+GET  {{url}}/pet/5fc1ebd1f95a12c1ab9d5585/owner
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+POST  {{url}}/pet
+content-type: application/json
+
+{
+    "nome": "{{adm_user}}",
+    "raca": "{{adm_pass}}"
 }
 ###
 
@@ -78,5 +100,20 @@ Authorization: Bearer {{token}}
 {
     "nome" : "Aves",
     "descricao" : ""
+}
+###
+
+// PetRaca
+GET  {{url}}/pet-raca
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+POST  {{url}}/pet-raca
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nome" : "Fox",
+    "descricao" : "sem no;áo"
 }
 ###
