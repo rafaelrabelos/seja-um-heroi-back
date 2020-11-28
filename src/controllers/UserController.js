@@ -48,7 +48,6 @@ const secure = require('../libs/secure');
 
     async function getUsers(req, res){
 
-
         try {
             const users = await Model.User.find()
             .select(`${await selectPermissions(req)}`)
@@ -156,8 +155,24 @@ const secure = require('../libs/secure');
     }
 
     async function selectPermissions(req){
-        return await secure.checkUserRights(req, {root: true}) === true 
-            ? '+administrador +system_user +root' : '';
+
+       const permissions ={
+            root : await secure.checkUserRights(req, {root: true}) === true 
+            ? '+administrador +system_user +root' : false,
+            admin : await secure.checkUserRights(req, {admin: true}) === true 
+            ? '+administrador +system_user' : false,
+            sys : await secure.checkUserRights(req, {admin: true}) === true 
+            ? '+system_user' : false,
+        }
+
+        if(permissions.root !== false)
+            return permissions.root;
+        else if(permissions.admin !== false)
+            return permissions.admin;
+        else if(permissions.sys !== false)
+            return permissions.sys;
+        else
+        return "";
     }
 
-module.exports = { createUser, getUsers, getUser, updateUser, deleteUser }
+module.exports = { createUser, getUsers, getUser, getSelfUser, updateUser, deleteUser, getUserPets }
