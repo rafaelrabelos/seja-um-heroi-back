@@ -20,16 +20,17 @@ async function getPetClasses(req, res){
 
 async function insertPetClasse(req, res){
     
-    const { nome } = req.body;
-    
     try {
 
-        if( await ModelClasse.ClassePet.findOne({ nome })){
+        const { nome } = req.body;
 
-            return res.status(400).send({
-                    status : false,
-                    erros : [`Classe ${nome} ja existe.`]
-                })
+        if(!nome){
+            return res.status(400).send({ status : false, erros : [`Atributos obrigatorios: nome.`] })
+        }
+
+        if(await ModelClasse.ClassePet.findOne({ nome })){
+
+            return res.status(400).send({ status : false, erros : [`Classe ${nome} ja existe.`] })
         }
 
         const pet =  await ModelClasse.ClassePet.create({

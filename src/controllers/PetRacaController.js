@@ -20,16 +20,17 @@ async function getPetRacas(req, res){
 
 async function insertPetRacas(req, res){
     
-    const { nome } = req.body;
+    const { nome, classe } = req.body;
     
     try {
 
+        if(!classe){
+            return res.status(400).send({ status : false, erros : [`Atributos obrigatorios: classe.`] })
+        }
+
         if( await ModelRacas.RacaPet.findOne({ nome })){
 
-            return res.status(400).send({
-                    status : false,
-                    erros : [`Raca ${nome} ja existe.`]
-                })
+            return res.status(400).send({ status : false, erros : [`Raca ${nome} ja existe.`] })
         }
 
         const raca =  await ModelRacas.RacaPet.create({
