@@ -29,6 +29,7 @@ routes.get('/', (req, res) => res.status(200).send({
 routes.post('/login', LoginController.autentica);
 
 // Users
+routes.get('/user', (req, res) => secure.secureRoute(req, res, {owner: true}, UserController.getUser));
 routes.get('/user/obtem', (req, res) => secure.secureRoute(req, res, {admin: true}, UserController.getUsers));
 routes.get('/user/obtem/:usuarioId', (req, res) => secure.secureRoute(req, res, {owner : true}, UserController.getUser));
 routes.post('/user/create', UserController.createUser);

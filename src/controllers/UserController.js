@@ -64,7 +64,7 @@ const secure = require('../libs/secure');
     async function getUser(req, res){
 
         try {
-            const users = await Model.User.findById(req.params.usuarioId).populate("criadoPor");
+            const users = await Model.User.findById(req.params.usuarioId || req.decodedJWT.id).populate("criadoPor");
 
             return res.status(200).send({ status : true, user : users });
         } catch (error) {
