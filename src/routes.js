@@ -35,6 +35,8 @@ routes.get('/user/obtem/:usuarioId', (req, res) => secure.secureRoute(req, res, 
 routes.post('/user/create', UserController.createUser);
 routes.put('/user', (req, res) => secure.secureRoute(req, res, null, UserController.updateUser));
 routes.put('/user/update/:usuarioId', (req, res) => secure.secureRoute(req, res, {owner : true}, UserController.updateUser));
+routes.delete('/user/:usuarioId', (req, res) => secure.secureRoute(req, res, {system : true}, UserController.deleteUser));
+routes.delete('/user/remove/:usuarioId', (req, res) => secure.secureRoute(req, res, {system : true}, UserController.deleteUser));
 
 // Pets
 routes.get('/pet/classe',  (req, res) => secure.secureRoute(req, res, null, PetController.getPetClasses));

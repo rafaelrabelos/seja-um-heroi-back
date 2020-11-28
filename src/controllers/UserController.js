@@ -64,7 +64,9 @@ const secure = require('../libs/secure');
     async function getUser(req, res){
 
         try {
-            const users = await Model.User.findById(req.params.usuarioId || req.decodedJWT.id).populate("criadoPor");
+            const users = await Model.User.findById(req.params.usuarioId || req.decodedJWT.id)
+            .select(`${await selectPermissions(req)}`)
+            .populate("criadoPor");
 
             return res.status(200).send({ status : true, user : users });
         } catch (error) {
@@ -101,9 +103,61 @@ const secure = require('../libs/secure');
         }
     };
 
-    async function selectPermissions(req){
-        return await secure.checkUserRights(req, {root: true}) === true 
-            ? '+administrador +system_user' : '';
+    async function deleteUser(req, res){
+
+        try {
+
+            if(req.params.usuarioId.toString() === req.decodedJWT.id.toString() )
+            {
+                return res.status(400).send({ status : false, erros : ["Usuario náo pode se auto deletar."] });
+            }
+
+            const usuarioId = req.params.usuarioId;
+
+            const canDeleteResult = await userCanDelete(req.decodedJWT.id, usuarioId);
+
+            if(canDeleteResult !== true){
+                return res.status(500).send({ status : false, erros : [canDeleteResult] });
+            }
+
+            const userDeleted = await Model.User.findById(usuarioId);
+
+            return res.status(200).send({ status : true, user : userDeleted  });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    };
+
+    async function userCanDelete(userToActId, userToDeleteId){
+
+        const userToAct = await Model.User.findById(userToActId)
+        .select('+administrador +system_user +root');
+
+        const userToDelete = await Model.User.findById(userToDeleteId)
+        .select('+administrador +system_user +root');
+
+        if(!userToAct || !userToDelete ){
+            return "Usuario(s) nao localizado.";
+        }
+        if(userToAct.administrador){
+            const res = !(userToDelete.administrador || userToDelete.root || userToDelete.system_user);
+            return res || "Administrador náo pode deletar o usuario.";
+        }else if(userToAct.root){
+            const res = !userToDelete.root;
+            return res || "root náo pode deletar o usuario root.";
+        }else if(userToAct.system_user){
+            const res = !(userToDelete.system_user || userToDelete.root || userToDelete.administrador );
+            return res || "Sistema sem privilegios para remover.";
+        }else{
+            return true;
+        }
+
     }
 
-module.exports = { createUser, getUsers, getUser, updateUser }
+    async function selectPermissions(req){
+        return await secure.checkUserRights(req, {root: true}) === true 
+            ? '+administrador +system_user +root' : '';
+    }
+
+module.exports = { createUser, getUsers, getUser, updateUser, deleteUser }
