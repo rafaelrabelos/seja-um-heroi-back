@@ -5,13 +5,13 @@ const PetSchema = new mongoose.Schema({
     raca : { type : String, lowercase:true, required : true },
     tamanho : { type : Number, required : true },
     descricao : { type : String},
-    classe : { type : mongoose.Schema.Types.ObjectId, ref : 'ClassePet' },
+    classe : { type : mongoose.Schema.Types.ObjectId, ref : 'ClassePet', required : true },
     vacinado_v8 : { type : Boolean, default : false},
     vacinado_v10 : { type : Boolean, default : false},
     vacinado_antirrábica: { type : Boolean, default : false},
-    heroiDono : { type : mongoose.Schema.Types.ObjectId, ref : 'User' },
+    heroiDono : { type : mongoose.Schema.Types.ObjectId, ref : 'User', required : true },
     criadoEm : { type : Date, default : Date.now },
-    criadoPor : { type : mongoose.Schema.Types.ObjectId, ref : 'User' },
+    criadoPor : { type : mongoose.Schema.Types.ObjectId, ref : 'User', required : true },
 });
 
 const Pet = mongoose.model('Pet', PetSchema);

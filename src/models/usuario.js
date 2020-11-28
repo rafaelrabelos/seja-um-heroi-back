@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
     administrador : { type : Boolean, select: false, default : false},
     system_user : { type : Boolean, select: false, default : false},
     criadoEm : { type : Date, default : Date.now },
-    criadoPor : { type : mongoose.Schema.Types.ObjectId, ref : 'User' },
+    criadoPor : { type : mongoose.Schema.Types.ObjectId, ref : 'User', required : true },
 });
 
 UserSchema.pre('save', async function(next){
