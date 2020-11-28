@@ -3,8 +3,6 @@ const ModelClasse = require('../models/pet/classe');
 async function getPetClasses(req, res){
     
     try {
-        req.body.administrator = undefined;
-
         const classes =  await ModelClasse.ClassePet.find().populate('criadoPor');
     
         return res.status(200).send({ status : true, data : classes });
