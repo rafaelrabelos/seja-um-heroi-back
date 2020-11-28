@@ -42,4 +42,32 @@ async function insertPetRacas(req, res){
     }
 };
 
-module.exports = { getPetRacas, insertPetRacas }
+async function updatePetRaca(req, res){
+
+    const { nome, descricao, classe, wiki_link } = req.body;
+
+    try {
+        if(!nome || !descricao || !classe ){
+            return res.status(400).send({ status : false, erros : ["Dados obrigatorios: nome, decricao, classe"] });
+        }
+
+        const petRacaId = req.params.petracaId || req.decodedJWT.id;
+
+        const petRaca = await ModelRacas.RacaPet.findById(petRacaId);
+
+        if(!petRaca){
+            return res.status(400).send({ status : false, erros : ["Raca nao localizado."] });
+        }
+
+        const petRacaUpdated = await ModelRacas.RacaPet
+        .findByIdAndUpdate(petRacaId, req.body, { new : true })
+        .populate("criadoPor");
+
+        return res.status(200).send({ status : true, data : petRacaUpdated  });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);
+    }
+};
+
+module.exports = { getPetRacas, insertPetRacas, updatePetRaca }

@@ -48,9 +48,11 @@ routes.get('/pet/:petId/owner',  (req, res) => secure.secureRoute(req, res, null
 // Pet Classes
 routes.get('/pet-classe',  (req, res) => secure.secureRoute(req, res, null,   PetClassesController.getPetClasses));
 routes.post('/pet-classe', (req, res) => secure.secureRoute(req, res, {admin: true}, PetClassesController.insertPetClasse));
+routes.put('/pet-classe/:petclasseId', (req, res) => secure.secureRoute(req, res, {admin: true}, PetClassesController.updatePetClasse));
 
 // Pet Racas
 routes.get('/pet-raca',  (req, res) => secure.secureRoute(req, res, null,   PetRacasController.getPetRacas));
 routes.post('/pet-raca', (req, res) => secure.secureRoute(req, res, {admin: true}, PetRacasController.insertPetRacas));
+routes.put('/pet-raca/:petracaId', (req, res) => secure.secureRoute(req, res, {admin: true}, PetRacasController.updatePetRaca));
 
 module.exports = routes; 
