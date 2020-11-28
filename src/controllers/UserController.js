@@ -1,4 +1,5 @@
 const Model = require('../models/usuario');
+const ModelPet = require('../models/pet/pet');
 const password_check  = require('password-validator');
 const secure = require('../libs/secure');
 
@@ -82,6 +83,20 @@ const secure = require('../libs/secure');
             .populate("criadoPor");
 
             return res.status(200).send({ status : true, user : users });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    };
+
+    
+    async function getUserPets(req, res){
+
+        try {
+            const users = await ModelPet.Pet.find({heroiDono :req.params.usuarioId})
+            .populate("heroiDono");
+
+            return res.status(200).send({ status : true, pets : users });
         } catch (error) {
             console.log(error);
             return res.status(500).send(error);
