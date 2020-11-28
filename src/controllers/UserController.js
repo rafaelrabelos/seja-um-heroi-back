@@ -1,4 +1,5 @@
 const Model = require('../models/usuario');
+const ModelPet = require('../models/pet/pet');
 const password_check  = require('password-validator');
 const secure = require('../libs/secure');
 
@@ -48,9 +49,22 @@ const secure = require('../libs/secure');
 
     async function getUsers(req, res){
 
-
         try {
             const users = await Model.User.find()
+            .select(`${await selectPermissions(req)}`)
+            .populate("criadoPor");
+
+            return res.status(200).send({ status : true, user : users });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    };
+
+    async function getSelfUser(req, res){
+
+        try {
+            const users = await Model.User.findById(req.decodedJWT.id)
             .select(`${await selectPermissions(req)}`)
             .populate("criadoPor");
 
@@ -69,6 +83,20 @@ const secure = require('../libs/secure');
             .populate("criadoPor");
 
             return res.status(200).send({ status : true, user : users });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    };
+
+    
+    async function getUserPets(req, res){
+
+        try {
+            const users = await ModelPet.Pet.find({heroiDono :req.params.usuarioId})
+            .populate("heroiDono");
+
+            return res.status(200).send({ status : true, pets : users });
         } catch (error) {
             console.log(error);
             return res.status(500).send(error);
@@ -94,7 +122,10 @@ const secure = require('../libs/secure');
                 return res.status(500).send({ status : false, erros : ["Usuario nao localizado."] });
             }
 
-            const userUpdated = await Model.User.findByIdAndUpdate(usuarioId, { nome, sobrenome,  data_nascimento }, { new : true });
+            const userUpdated = await Model.User
+            .findByIdAndUpdate(usuarioId, { nome, sobrenome,  data_nascimento }, { new : true })
+            .select(`${await selectPermissions(req)}`)
+            .populate("criadoPor");;
 
             return res.status(200).send({ status : true, user : userUpdated  });
         } catch (error) {
@@ -120,7 +151,7 @@ const secure = require('../libs/secure');
                 return res.status(500).send({ status : false, erros : [canDeleteResult] });
             }
 
-            const userDeleted = await Model.User.findById(usuarioId);
+            const userDeleted = await Model.User.findByIdAndDelete(usuarioId);
 
             return res.status(200).send({ status : true, user : userDeleted  });
         } catch (error) {
@@ -156,8 +187,24 @@ const secure = require('../libs/secure');
     }
 
     async function selectPermissions(req){
-        return await secure.checkUserRights(req, {root: true}) === true 
-            ? '+administrador +system_user +root' : '';
+        
+       const permissions ={
+            root : await secure.checkUserRights(req, {root: true}) === true 
+            ? '+administrador +system_user +root' : false,
+            admin : await secure.checkUserRights(req, {admin: true}) === true 
+            ? '+administrador +system_user' : false,
+            sys : await secure.checkUserRights(req, {admin: true}) === true 
+            ? '+system_user' : false,
+        }
+
+        if(permissions.root !== false)
+            return permissions.root;
+        else if(permissions.admin !== false)
+            return permissions.admin;
+        else if(permissions.sys !== false)
+            return permissions.sys;
+        else
+        return "";
     }
 
-module.exports = { createUser, getUsers, getUser, updateUser, deleteUser }
+module.exports = { createUser, getUsers, getUser, getSelfUser, updateUser, deleteUser, getUserPets }
