@@ -42,6 +42,9 @@ async function checkUserRights(req, rights){
         if(rights.owner != undefined && rights.owner && !isUserOwner(req, user) ){
             return `${user.nome}<${user.email}> sem privilégios owner para executar esta ação.`;
         }
+        if(rights.system != undefined && rights.system && !isUserSystem(req, user) ){
+            return `${user.nome}<${user.email}> sem privilégios owner para executar esta ação.`;
+        }
     }
 
     return true;
@@ -63,6 +66,14 @@ function isAdmin(req, user){
 function isUserOwner(req, user){
 
     if(isAdmin(req, user) || req.params.usuarioId.toString() === user._id.toString() ){
+        return true;
+    }
+    
+    return false;
+}
+
+function isUserSystem(req, user){
+    if(isAdmin(req, user) || user.system_user){
         return true;
     }
     
