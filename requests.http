@@ -26,6 +26,15 @@ content-type: application/json
 }
 ###
 
+PUT {{url}}/user/update/5fbfa6b6ee400d001706c4b0
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nome": "Administrador - teste 2"
+}
+###
+
 // login/ adm
 POST  {{url}}/login
 content-type: application/json

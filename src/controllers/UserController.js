@@ -73,9 +73,36 @@ const secure = require('../libs/secure');
         }
     };
 
+    async function updateUser(req, res){
+
+        const { nome } = req.body;
+
+
+        try {
+
+            if(!nome)
+            {
+                return res.status(400).send({ status : false, erros : ["Nome e email devem ser informados!"] });
+            }
+
+            const user = await Model.User.findById(req.params.usuarioId);
+
+            if(!user){
+                return res.status(500).send({ status : false, erros : ["Usuario nao localizado."] });
+            }
+
+            const userUpdated = await Model.User.findByIdAndUpdate(req.params.usuarioId, { nome }, { new : true });
+
+            return res.status(200).send({ status : true, user : userUpdated  });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    };
+
     async function selectPermissions(req){
         return await secure.checkUserRights(req, {root: true}) === true 
             ? '+administrador +system_user' : '';
     }
 
-module.exports = { createUser, getUsers, getUser }
+module.exports = { createUser, getUsers, getUser, updateUser }
