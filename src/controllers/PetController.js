@@ -1,56 +1,57 @@
-const jwt = require('jsonwebtoken');
-const Model = require('../models/pet/classe');
-const secure = require('../libs/secure');
+const ModelPet = require('../models/pet/pet');
+const { getUser } = require('./UserController');
 
+async function getPets(req, res) {
 
-async function getPetClasses(req, res){
-    
     try {
-        req.body.administrator = undefined;
+        const pets = await ModelPet.Pet.find()
+            .populate("criadoPor");
 
-        const classes =  await Model.ClassePet.find().populate('criadoPor')
-    
-        return res.status(200).send({
-            status : true,
-            data : classes
-        });
-        
+        return res.status(200).send({ status: true, data: pets });
     } catch (error) {
         console.log(error);
         return res.status(500).send(error);
     }
 };
 
-async function insertPetClasse(request, response){
+async function getPet(req, res) {
 
-    secure.checkUserRights(response, request.decodedJWT.id, { admin : true });
-    
-    const { nome } = request.body;
-    
     try {
-
-        if( await Model.ClassePet.findOne({ nome })){
-
-            return response.status(400).send({
-                    status : false,
-                    erros : [`Classe ${nome} ja existe.`]
-                })
+        if (!req.params.petId) {
+            return res.status(400).send({ status: true, erros: ["Id do pet nao informada."] });
         }
 
-        const pet =  await Model.ClassePet.create({
-            ...request.body,
-            criadoPor : request.decodedJWT.id
-            });
-    
-        return response.status(200).send({
-            status : true,
-            classe : await Model.ClassePet.findOne({nome})
-        });
-        
+        const pet = await ModelPet.Pet.findById(req.params.petId)
+            .populate("criadoPor");
+
+        return res.status(200).send({ status: true, data: pet });
     } catch (error) {
         console.log(error);
-        return response.status(500).send(error);
+        return res.status(500).send(error);
     }
 };
 
-module.exports ={insertPetClasse, getPetClasses}
+async function getPetOwner(req, res) {
+
+    try {
+        if (!req.params.petId) {
+            return res.status(400).send({ status: false, erros: ["Id do pet nao informada."] });
+        }
+
+        const pet = await ModelPet.Pet.findById(req.params.petId).populate("heroiDono");
+
+        if (!pet) {
+            return res.status(400).send({ status: false, erros: ["Id do pet invalida."] });
+        }
+
+        req.params.usuarioId = pet._id;
+
+        return getUser(req, res);
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);
+    }
+};
+
+module.exports = { getPet, getPets, getPetOwner }

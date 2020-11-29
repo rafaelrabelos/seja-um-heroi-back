@@ -14,7 +14,7 @@ GET {{url}}/user/todos
 content-type: application/json
 Authorization: Bearer {{token}}
 ###
-GET {{url}}/user/5fc28d6ce11978245992e085
+GET {{url}}/user/5fbedbd4c8073300175f2bde
 content-type: application/json
 Authorization: Bearer {{token}}
 ###
@@ -24,6 +24,7 @@ Authorization: Bearer {{token}}
 ###
 POST {{url}}/user
 content-type: application/json
+Authorization: Bearer {{token}}
 
 {
     "nome": "teste user",
@@ -46,7 +47,7 @@ content-type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "nome": "Administrador",
+    "nome": "System",
     "sobrenome": "Tester",
     "data_nascimento": "1986-08-10"
 }
@@ -56,13 +57,35 @@ content-type: application/json
 Authorization: Bearer {{token}}
 ###
 
-// login/ adm
+// login
 POST  {{url}}/login
 content-type: application/json
 
 {
     "email": "{{adm_user}}",
     "senha": "{{adm_pass}}"
+}
+###
+
+// pet/
+GET  {{url}}/pet
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+GET  {{url}}/pet/5fc1ebd1f95a12c1ab9d5585
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+GET  {{url}}/pet/5fc1ebd1f95a12c1ab9d5585/owner
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+POST  {{url}}/pet
+content-type: application/json
+
+{
+    "nome": "{{adm_user}}",
+    "raca": "{{adm_pass}}"
 }
 ###
 
@@ -76,7 +99,89 @@ content-type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "nome" : "Aves",
-    "descricao" : ""
+    "nome" : "Canídeos",
+    "descricao" : "Canidae é uma família de mamíferos da ordem Carnivora que engloba cães, lobos, chacais, coiotes e raposas. É composto por 35 espécies distribuídas por todos os continentes com exceção da Antártica.",
+    "wiki_link": "https://pt.wikipedia.org/wiki/Canídeos"
+}
+###
+PUT  {{url}}/pet-classe/5fc077df8b30d930d4120570
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nome" : "Felídeos",
+    "descricao" : "Felinos são uma família de animais mamíferos digitígrados, da ordem dos carnívoros. Existem muitas espécies selvagens, como os grandes felinos.",
+    "wiki_link" : "https://pt.wikipedia.org/wiki/Felidae"
+}
+###
+
+// PetRaca
+GET  {{url}}/pet-raca
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+POST  {{url}}/pet-raca
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nome" : "Fox paulistinha (Terrier brasileiro)",
+    "descricao" : "Terrier brasileiro[Nota] é uma raça de cães do tipo terrier, de porte médio para pequeno, oriunda do Brasil.[1][2] É conhecida informalmente como Fox paulistinha.",
+    "classe" : "5fc2c649f4138678cc8d0b49",
+    "wiki_link" : "https://en.wikipedia.org/wiki/Brazilian_Terrier"
+}
+###
+PUT  {{url}}/pet-raca/5fc2bea1fe48376ecf5e1404
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nome" : "Egyptian Mau",
+    "descricao" : "Egyptian Maus are a small- to medium-sized short-haired cat breed. They are one of the few naturally spotted breeds of domesticated cat. The spots of the Mau occur on only the tips of the hairs of its coat. It is considered a rare breed.",
+    "classe" : "5fc077df8b30d930d4120570",
+    "wiki_link" : "https://en.wikipedia.org/wiki/Egyptian_Mau"
+}
+###
+
+// Vacinas
+
+GET  {{url}}/vacina
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+GET  {{url}}/vacina/5fc2de4c0fa56a9a9df77daa
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+GET  {{url}}/vacina/pet/5fc2bea1fe48376ecf5e1404
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+GET  {{url}}/vacina/classe/5fc2c649f4138678cc8d0b49
+content-type: application/json
+Authorization: Bearer {{token}}
+###
+POST  {{url}}/vacina
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nome" : "Antirrabica",
+    "descricao" : "Defensor é para vacinação de animais sadios (cães e gatos), como um auxiliar na prevenção da raiva",
+    "dose" : "unica, anual",
+    "composicao" : "NA",
+    "classe_pets" : "5fc077df8b30d930d4120570"
+}
+###
+PUT  {{url}}/vacina/5fc2de620fa56a9a9df77dad
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nome" : "Antirrabica",
+    "descricao" : "Defensor é para vacinação de animais sadios (cães e gatos), como um auxiliar na prevenção da raiva",
+    "dose" : "unica, anual",
+    "composicao" : "NA",
+    "classe_pets" : "5fc2c649f4138678cc8d0b49"
 }
 ###

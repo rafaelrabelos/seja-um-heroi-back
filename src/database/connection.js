@@ -5,12 +5,12 @@ const pass = process.env.DB_PASS;
 const banco = process.env.DB_DATABASE;
 
 mongoose.connect(`mongodb+srv://${user}:${pass}@cluster0.miauz.mongodb.net/${banco}?retryWrites=true&w=majority`,
-{ 
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-});
+    {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false
+    });
 mongoose.Promise = global.Promise;
 
 module.exports = mongoose;
