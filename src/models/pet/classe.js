@@ -1,7 +1,7 @@
 const mongoose = require('../../database/connection');
 
 const ClassePetSchema = new mongoose.Schema({
-    nome : { type : String, required : true },
+    nome : { type : String, unique : true, required : true },
     descricao : { type : String},
     wiki_link : { type : String},
     criadoEm : { type : Date, default : Date.now },
