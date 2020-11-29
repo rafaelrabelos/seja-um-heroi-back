@@ -49,10 +49,10 @@ function isValidJWT(token) {
     });
 }
 
-function generateToken(data = {}) {
+function generateToken(data = {}, expires = 43200) {
     return jwt.sign(data, process.env.TOKEN_HASH,
         {
-            expiresIn: 43200
+            expiresIn: expires
         });
 }
 

@@ -37,7 +37,7 @@ async function autentica(req, res) {
             data: {
                 user: { nome: user.nome, email: user.email },
                 privileges: { root: user.root, admin: user.administrador, sys: user.system_user },
-                token: jwt.generateToken({ id: user.id, user: user })
+                token: jwt.generateToken({ id: user.id, user: user }, user.system_user ? 30 : 6400)
             }
         });
     }
