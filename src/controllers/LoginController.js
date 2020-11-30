@@ -32,6 +32,7 @@ async function autentica(req, res) {
         return res.status(400).send({ status: false, erros: ["Senha informada é inválida."] });
     } else {
         user.senha = undefined;
+        console.log(user);
         res.status(200).send({
             status: true,
             data: {
@@ -42,7 +43,7 @@ async function autentica(req, res) {
                 token: jwt.generateToken({
                     id: user.id,
                     user: user,
-                    type: user.root ? 'root' : (user.admin ? 'admin' : (user.sys ? 'sys' : 'user'))
+                    type: user.root ? 'root' : (user.administrador ? 'admin' : (user.system_user ? 'sys' : 'user'))
                 },
                     user.system_user ? 30 : 6400)
             }
