@@ -35,9 +35,16 @@ async function autentica(req, res) {
         res.status(200).send({
             status: true,
             data: {
-                user: { nome: user.nome, email: user.email },
-                privileges: { root: user.root, admin: user.administrador, sys: user.system_user },
-                token: jwt.generateToken({ id: user.id, user: user }, user.system_user ? 30 : 6400)
+                user: { 
+                    nome: user.nome,
+                    email: user.email,
+                },
+                token: jwt.generateToken({
+                    id: user.id,
+                    user: user,
+                    type: user.root ? 'root' : (user.admin ? 'admin' : (user.sys ? 'sys' : 'user'))
+                },
+                    user.system_user ? 30 : 6400)
             }
         });
     }
