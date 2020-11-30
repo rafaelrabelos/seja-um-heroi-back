@@ -86,11 +86,11 @@ async function getUserPets(req, res) {
 
 async function updateUser(req, res) {
 
-    const { nome, sobrenome, data_nascimento } = req.body;
+    const { nome, sobrenome, email } = req.body;
 
     try {
-        if (!nome || !sobrenome || !data_nascimento) {
-            return res.status(400).send({ status: false, erros: ["Ha campo que devem ser informados!"] });
+        if (!nome || !sobrenome || !email) {
+            return res.status(400).send({ status: false, erros: ["Ha campo(s) que devem ser informados!"] });
         }
 
         const usuarioId = req.params.usuarioId || req.decodedJWT.id;
@@ -102,7 +102,7 @@ async function updateUser(req, res) {
         }
 
         const userUpdated = await Model.User
-            .findByIdAndUpdate(usuarioId, { nome, sobrenome, data_nascimento }, { new: true })
+            .findByIdAndUpdate(usuarioId, { nome, sobrenome, email }, { new: true })
             .select(`${await selectPermissions(req)}`)
             .populate("criadoPor");
 
