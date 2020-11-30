@@ -32,7 +32,6 @@ async function autentica(req, res) {
         return res.status(400).send({ status: false, erros: ["Senha informada é inválida."] });
     } else {
         user.senha = undefined;
-        console.log(user);
         res.status(200).send({
             status: true,
             data: {
