@@ -57,7 +57,7 @@ async function autentica(req, res) {
               ? "sys"
               : "user",
           },
-          user.system_user ? 30 : 6400
+          user.system_user ? 3000 : 6400
         ),
       },
     });
