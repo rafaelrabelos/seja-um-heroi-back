@@ -11,22 +11,7 @@ const VacinaController = require('./controllers/VacinaController');
 
 const routes = express.Router();
 
-routes.get('/', (req, res) => res.status(200).send({
-    info: {
-        apiName: "SejaUmHeroi",
-        apiHost: os.hostname() || "Não indefificado",
-        apiEndpoints: ["/api"],
-        apiVer: "v1",
-        apiPort: process.env.API_PORT || "Não indefificado"
-    },
-    createdBy: [
-        "Rafael Rabelo",
-        "André Marinho Moreira",
-        "Gustavo Caldeira de Oliveira",
-        "Henrique Alves Kirshke",
-        "Lucas Stehling Lara Carvalho"
-    ]
-}));
+routes.get('/', (req, res) => res.status(200).send({healthcheck: "ok"}));
 
 // Sessão e login
 routes.post('/login', LoginController.autentica);
